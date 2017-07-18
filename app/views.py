@@ -79,7 +79,7 @@ def search():
                 })
 
         else:
-            return json.dumps({'areacode': 'Please enter an area code.'})
+            return json.dumps({'error': 'Area code not found.'})
 
     except Exception as e:
         return json.dumps({'error': str(e)})
