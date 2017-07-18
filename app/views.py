@@ -2,6 +2,7 @@ from flask import render_template,json,request
 import pycurl,xml.etree.ElementTree as ET
 from StringIO import StringIO
 from app import app
+from werkzeug.contrib.fixers import ProxyFix
 
 class Areacode:
     xmlcitydata = None
@@ -79,3 +80,4 @@ def search():
     except Exception as e:
         return json.dumps({'error': str(e)})
 
+app.wsgi_app = ProxyFix(app.wsgi_app)
