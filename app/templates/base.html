@@ -12,18 +12,18 @@
     <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
   </head>
   <body>
-    <div class="container">
+    <div class="container" style="min-width:1045px;">
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation"><a href="/">Home</a></li>
-            <li role="presentation"><a href="/about">About</a></li>
+            <li role="presentation"><a href="/">Area Code Lookup</a></li>
           </ul>
         </nav>
       </div>
       {% block body %}
       {% endblock %}
-      <footer class="footer">
+
+      <footer class="footer clearfix">
         <p>© 2017 Preston Stone</p>
       </footer>
     </div> <!-- /container -->

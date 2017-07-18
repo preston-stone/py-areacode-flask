@@ -11,6 +11,7 @@ class Areacode:
     areacode = ''
     cityresult = ''
     regionresult = ''
+    region_shortcode = ''
     result = ''
 
     def __init__(self,areacode):
@@ -43,6 +44,8 @@ class Areacode:
             city_result_list.append(i.text)
         for j in ET.fromstring(self.xmlregiondata).findall('.//rname'):   
            region_result_list += j.text
+        for k in ET.fromstring(self.xmlregiondata).findall('.//region'):
+            self.region_shortcode = k.text
         self.cityresult = ', '.join(str(item) for item in city_result_list)
         self.regionresult = region_result_list
 
@@ -71,7 +74,8 @@ def search():
             return json.dumps({
                 'areacode': acode.areacode,
                 'region': acode.regionresult,
-                'cities': acode.cityresult
+                'cities': acode.cityresult,
+                'shortcode': acode.region_shortcode
                 })
 
         else:
