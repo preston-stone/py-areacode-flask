@@ -15,8 +15,6 @@ $(function() {
                     $("#ac-output").html('<h2>'+content.error+'</h2>');   
                     $("#ac-map").html('');
                 }
-               
-
             },
             error: function(error) {
                 console.log(error);
