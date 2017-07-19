@@ -70,16 +70,20 @@ def search():
         if _inputAreaCode:
             acode = Areacode(_inputAreaCode)
             acode.outputResults()
-
-            return json.dumps({
-                'areacode': acode.areacode,
-                'region': acode.regionresult,
-                'cities': acode.cityresult,
-                'shortcode': acode.region_shortcode
-                })
+            if acode.regionresult != '' and acode.cityresult != '':
+                return json.dumps({
+                    'areacode': acode.areacode,
+                    'region': acode.regionresult,
+                    'cities': acode.cityresult,
+                    'shortcode': acode.region_shortcode
+                    })
+            else:
+                return json.dumps({
+                    'error': 'Area code not found or invalid.'
+                    })
 
         else:
-            return json.dumps({'error': 'Area code not found.'})
+            return json.dumps({'error': 'Please enter a valid area code.'})
 
     except Exception as e:
         return json.dumps({'error': str(e)})
