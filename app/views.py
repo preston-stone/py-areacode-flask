@@ -41,11 +41,11 @@ class Areacode:
         if self.xmlcitydata is None:
             self.fetchXML()
         for i in ET.fromstring(self.xmlcitydata).findall('.//rc'):   
-            city_result_list.append(i.text)
+            city_result_list.append(i.text.encode('utf8'))
         for j in ET.fromstring(self.xmlregiondata).findall('.//rname'):   
-           region_result_list += j.text
+           region_result_list += j.text.encode('utf8')
         for k in ET.fromstring(self.xmlregiondata).findall('.//region'):
-            self.region_shortcode = k.text
+            self.region_shortcode = k.text.encode('utf8')
         self.cityresult = ', '.join(str(item) for item in city_result_list)
         self.regionresult = region_result_list
 
@@ -53,7 +53,6 @@ class Areacode:
         self.result = self.regionresult+'\n\n'
         self.result += self.cityresult
  
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -81,7 +80,6 @@ def search():
                 return json.dumps({
                     'error': 'Area code not found or invalid.'
                     })
-
         else:
             return json.dumps({'error': 'Please enter a valid area code.'})
 
