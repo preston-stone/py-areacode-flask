@@ -1,8 +1,7 @@
 from flask import render_template,json,request
-import pycurl,xml.etree.ElementTree as ET
+import requests,xml.etree.ElementTree as ET
 from StringIO import StringIO
 from app import app
-from werkzeug.contrib.fixers import ProxyFix
 
 class Areacode:
     xmlcitydata = None
@@ -22,19 +21,10 @@ class Areacode:
     def fetchXML(self):
         citybuffer = StringIO()
         regionbuffer = StringIO()
-        c = pycurl.Curl()
-        c.setopt(c.URL, 'http://www.localcallingguide.com/xmlrc.php?npa='+self.areacode)
-        c.setopt(c.WRITEDATA,citybuffer)
-        c.perform()
-        c.close()
-        self.xmlcitydata = citybuffer.getvalue()
-        c = pycurl.Curl()
-        c.setopt(c.URL, 'http://www.localcallingguide.com/xmllistnpa.php?npa='+self.areacode)
-        c.setopt(c.WRITEDATA,regionbuffer)
-        c.perform()
-        c.close()
-        self.xmlregiondata = regionbuffer.getvalue()
-
+        c = requests.get('http://www.localcallingguide.com/xmlrc.php?npa='+self.areacode)
+        self.xmlcitydata = c.text
+        d = requests.get('http://www.localcallingguide.com/xmllistnpa.php?npa='+self.areacode)
+        self.xmlregiondata = d.text
     def parseXML(self):
         city_result_list = []
         region_result_list = ''        
@@ -85,5 +75,3 @@ def search():
 
     except Exception as e:
         return json.dumps({'error': str(e)})
-
-app.wsgi_app = ProxyFix(app.wsgi_app)
