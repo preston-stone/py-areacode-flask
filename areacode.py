@@ -1,3 +1,7 @@
+# This is the original CLI script. py-areacode-flask is the Flask front-end for this.
+# Note that the original script is specifically for the command line.
+# Usage: python areacode.py [area code]
+
 class Areacode:
 
     xmlcitydata = None
