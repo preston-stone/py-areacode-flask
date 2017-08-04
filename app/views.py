@@ -22,9 +22,9 @@ class Areacode:
         citybuffer = StringIO()
         regionbuffer = StringIO()
         c = requests.get('http://www.localcallingguide.com/xmlrc.php?npa='+self.areacode)
-        self.xmlcitydata = c.text
+        self.xmlcitydata = c.text.encode('utf8')
         d = requests.get('http://www.localcallingguide.com/xmllistnpa.php?npa='+self.areacode)
-        self.xmlregiondata = d.text
+        self.xmlregiondata = d.text.encode('utf8')
     def parseXML(self):
         city_result_list = []
         region_result_list = ''        
@@ -32,8 +32,11 @@ class Areacode:
             self.fetchXML()
         for i in ET.fromstring(self.xmlcitydata).findall('.//rc'):   
             city_result_list.append(i.text.encode('utf8'))
-        for j in ET.fromstring(self.xmlregiondata).findall('.//rname'):   
-           region_result_list += j.text.encode('utf8')
+        for n,j in enumerate(ET.fromstring(self.xmlregiondata).findall('.//rname')):   
+            if n > 0:
+                region_result_list += ', '
+                
+            region_result_list += j.text.encode('utf8')
         for k in ET.fromstring(self.xmlregiondata).findall('.//region'):
             self.region_shortcode = k.text.encode('utf8')
         self.cityresult = ', '.join(str(item) for item in city_result_list)
